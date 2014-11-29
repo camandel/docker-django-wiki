@@ -1,4 +1,4 @@
 docker-django-wiki
 ==================
 
-Dockerfile and configuration for a django-wiki container
+Dockerfile and configuration files to create a django-wiki container
