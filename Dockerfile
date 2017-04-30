@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:latest
 MAINTAINER Carlo Mandelli "camandel@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -9,14 +9,13 @@ RUN apt-get update \
 	python-pip \
 	python-dev \
         python-imaging \
-	git \
 	gcc \
 	ca-certificates \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install Pillow Django==1.6.8 git+https://github.com/benjaoming/django-wiki.git
+RUN pip install wiki
 
 ADD testproject /testproject/
 
