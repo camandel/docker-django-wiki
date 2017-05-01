@@ -12,14 +12,23 @@ $ sudo docker port django-wiki 8000
 0.0.0.0:49153
 $ wget http://localhost:49153 (admin/admin)
 ```
+### Customization
+You can change configurations, templates and db:
+```sh
+$ git clone https://github.com/camandel/docker-django-wiki.git ~/src
+```
+Then copy the directories for what you need to modify and mount them as volumes:
+```sh
+$ cp -a ~/src/docker-django-wiki/testproject/testproject/{db,templates,settings} /mydata
+$ sudo docker run -d -P -v /mydata/db:/db:z -v /mydata/templates:/templates:z -v /mydata/settings:/settings:z --name=django-wiki camandel/django-wiki
+```
 ### Backup
 To backup the sqlite db copy it to a local directory or use a persistent volume:
 ```sh
-git clone https://github.com/camandel/docker-django-wiki.git /tmp/mydata
-docker run -d -P -v /tmp/mydata/testproject:/testproject --name=django-wiki camandel/django-wiki
-echo '.dump' | sqlite3 /tmp/mydata/testproject/db.sqlite3 > /tmp/wiki.dump
+$ sudo docker run -d -P -v /mydata/db:/db:z --name=django-wiki camandel/django-wiki
+$ echo '.dump' | sqlite3 /mydata/db/db.sqlite3 > /mydata/backup/wiki.dump
 ```
 To restore:
 ```sh
-sqlite3 /tmp/mydata/testproject/db.sqlite3 < /tmp/wiki.dump
+$ sqlite3 /mydata/db/db.sqlite3 < /mydata/backup/wiki.dump
 ```
