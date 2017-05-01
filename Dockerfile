@@ -1,16 +1,13 @@
 FROM debian:latest
-MAINTAINER Carlo Mandelli "camandel@gmail.com"
+LABEL maintainer "Carlo Mandelli"
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install -y --force-yes --no-install-recommends \
 	python \
+    python-imaging \
 	python-pip \
-	python-dev \
-        python-imaging \
-	gcc \
-	ca-certificates \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
@@ -18,6 +15,8 @@ RUN apt-get update \
 RUN pip install wiki
 
 ADD testproject /testproject/
+
+RUN ln -s /testproject/testproject/db /db && ln -s /testproject/testproject/templates /templates && ln -s /testproject/testproject/settings /settings
 
 EXPOSE 8000
 
