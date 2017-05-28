@@ -16,7 +16,7 @@ RUN pip install wiki
 
 ADD testproject /testproject/
 
-RUN ln -s /testproject/testproject/db /db && ln -s /testproject/testproject/templates /templates && ln -s /testproject/testproject/settings /settings
+RUN ln -s /testproject/testproject/db /db && ln -s /testproject/testproject/templates /templates && ln -s /testproject/testproject/settings /settings && chmod 777 /testproject/testproject/settings
 
 EXPOSE 8000
 

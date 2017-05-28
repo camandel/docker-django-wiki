@@ -22,6 +22,11 @@ Then copy the directories for what you need to modify and mount them as volumes:
 $ cp -a ~/src/docker-django-wiki/testproject/testproject/{db,templates,settings} /mydata
 $ sudo docker run -d -P -v /mydata/db:/db:z -v /mydata/templates:/templates:z -v /mydata/settings:/settings:z --name=django-wiki camandel/django-wiki
 ```
+SECRET_KEY is now in a separate file. If not present it will be generated:
+```sh
+cat /mydata/settings/secret_key.py
+SECRET_KEY='your-secret-key'
+```
 ### Backup
 To backup the sqlite db copy it to a local directory or use a persistent volume:
 ```sh

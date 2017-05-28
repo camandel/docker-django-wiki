@@ -14,7 +14,12 @@ from __future__ import unicode_literals
 import os
 
 from django.core.urlresolvers import reverse_lazy
+from django.utils.crypto import get_random_string
 
+def generate_secret_key(filename):
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    with open(filename, "w") as file:
+        file.write("SECRET_KEY='{0}'".format(get_random_string(50, chars)))
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -23,7 +28,12 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'b^fv_)t39h%9p40)fnkfblo##jkr!$0)lkp6bpy!fi*f$4*92!'
+try:
+    from .secret_key import SECRET_KEY
+except ImportError:
+    settings_dir = os.path.abspath(os.path.dirname(__file__))
+    generate_secret_key(os.path.join(PROJECT_DIR, 'settings', 'secret_key.py'))
+    from .secret_key import SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
